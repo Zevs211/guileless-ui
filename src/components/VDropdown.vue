@@ -47,7 +47,7 @@ export default {
       return this.savedOptions
     },
     selectedValue() {
-      if (this.savedOptions.length === 0) return ''
+      if (this.savedOptions.length === 0) return '5'
       return this.savedOptions[this.selectedIndex][this.itemValue]
     },
   },

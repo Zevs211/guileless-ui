@@ -42,8 +42,8 @@
         :items="paginationOptions"
         @on-select="onItemsPerPageSelect"
       />
-      <!-- <v-dropdown :items="['alaska', 'russia', 'usa']" />
-      <v-dropdown :items="[false, true]" />
+      <!-- <v-dropdown :items="['alaska', 'russia', 'usa']" /> -->
+      <!-- <v-dropdown :items="[false, true]" />
       <v-dropdown :items="[1, 2, 3, 4]" />
       <v-dropdown :items="[{ ff: 11 }, { ff: 22 }]" item-value="ff" /> -->
     </div>
@@ -54,6 +54,7 @@
 import VSearch from '@/components/VSearch.vue'
 import VDropdown from '@/components/VDropdown.vue'
 import { deepClone } from '@/helpers'
+import { VALUE_ALL } from '@/consts'
 
 export default {
   name: 'VTable',
@@ -77,7 +78,12 @@ export default {
       rows: [],
       sortingKey: '',
       sortingOrder: 1,
-      paginationOptions: [{ value: 5 }, { value: 10 }, { value: 15 }],
+      paginationOptions: [
+        { value: 5 },
+        { value: 10 },
+        { value: 15 },
+        { value: VALUE_ALL },
+      ],
       rowsPerPage: null,
       currentPage: 1,
       totalPages: 1,
@@ -115,9 +121,9 @@ export default {
     },
   },
   created() {
-    // this.rows = deepClone(this.items)
     const copyItems = deepClone(this.items)
-    this.rows = copyItems.slice(0, 10)
+    this.rows = copyItems.slice(0, 5)
+    this.totalPages = Math.ceil(this.items.length / this.rows.length)
   },
   methods: {
     getCellValue(row, column) {
@@ -140,6 +146,13 @@ export default {
       this.rows = deepClone(filteredRows)
     },
     onItemsPerPageSelect(value) {
+      if (value.value === VALUE_ALL) {
+        this.rowsPerPage = { value: this.items.length }
+        this.currentPage = 1
+        this.totalPages = 1
+        this.paginate()
+        return
+      }
       this.rowsPerPage = value
       this.currentPage = 1
       this.totalPages = Math.ceil(this.items.length / this.rowsPerPage.value)
