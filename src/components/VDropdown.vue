@@ -1,14 +1,23 @@
 <template>
-  <div class="container">
-    <div class="container__select" @click="isOpen = !isOpen">
-      <div class="select__content">
+  <div class="relative">
+    <div
+      class="w-full cursor-pointer h-8 border-solid border-2 rounded-lg px-2 hover:bg-gray-200"
+      @click="isOpen = !isOpen"
+    >
+      <div class="flex items-center justify-between">
         <span>{{ selectedValue }}</span>
         <span>▼</span>
       </div>
     </div>
-    <div class="container__dropdown" v-if="isOpen">
+    <div
+      class="absolute w-full top-10 border-solid border-2 rounded-lg"
+      v-if="isOpen"
+    >
       <div v-for="(item, index) in options" :key="index">
-        <div class="dropdown__element" @click="select(index)">
+        <div
+          class="w-full h-8 cursor-pointer px-2 hover:bg-gray-200 "
+          @click="select(index)"
+        >
           {{ item[itemValue] }}
         </div>
       </div>
@@ -61,45 +70,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.container {
-  width: 100%;
-  position: relative;
-  &__select {
-    width: 100%;
-    height: 32px;
-    cursor: pointer;
-    border: 1px solid #dddce3;
-    border-radius: 5px;
-    padding: 0 8px;
-    &:hover {
-      background-color: #dddce3;
-    }
-    .select {
-      &__content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-    }
-  }
-  &__dropdown {
-    position: absolute;
-    top: 36px;
-    width: 100%;
-    border: 1px solid #dddce3;
-    border-radius: 5px;
-    .dropdown {
-      &__element {
-        width: 100%;
-        height: 32px;
-        padding: 0 8px;
-        cursor: pointer;
-        &:hover {
-          background-color: #dddce3;
-        }
-      }
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

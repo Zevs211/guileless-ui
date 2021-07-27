@@ -1,27 +1,34 @@
 <template>
-  <div class="container">
-    <v-search @inputSearch="onSearch" />
-    <div class="table">
-      <div class="table__head" :style="columnsNumber">
+  <div class="w-full pb-40">
+    <v-input @inputSearch="onSearch" />
+    <div class="relative w-full h-full">
+      <div
+        class="w-full grid cursor-pointer select-none border-b-2"
+        :style="columnsNumber"
+      >
         <span
-          class="head__cell"
+          class="flex items-center py-2 font-bold"
           @click="onColumnClick(head)"
           v-for="(head, index) in headers"
           :key="index"
         >
           <span>{{ head.text }}</span>
-          <span v-if="head.value === sortingKey">{{ arrow }}</span>
+          <icon-arrow-down
+            class="transition-transform"
+            v-if="head.value === sortingKey"
+            :class="{ 'transform -rotate-180': sortingOrder === 1 }"
+          />
         </span>
       </div>
-      <div class="table__body">
+      <div class="flex flex-col w-full">
         <div
-          class="body__row"
+          class="grid border-b-2 h-10 hover:bg-gray-200"
           :style="columnsNumber"
           v-for="(row, rowIndex) in sortedRows"
           :key="rowIndex"
         >
           <span
-            class="row__cell"
+            class="flex items-center text-left text-base"
             v-for="(column, cellIndex) in headers"
             :key="cellIndex"
           >
@@ -31,14 +38,14 @@
       </div>
     </div>
 
-    <div class="pagination">
-      <div class="pagination__pager">
-        <div class="pager__arrow" @click="decrementPage"><span>❮</span></div>
-        <span class="pager__text">{{ paginationText }}</span>
-        <div class="pager__arrow" @click="incrementPage"><span>❯</span></div>
+    <div class="flex flex-row-reverse w-full mt-3">
+      <div class="flex flex-row justify-between mr-8 w-60">
+        <div class="cursor-pointer" @click="decrementPage"><span>❮</span></div>
+        <span>{{ paginationText }}</span>
+        <div class="cursor-pointer" @click="incrementPage"><span>❯</span></div>
       </div>
       <v-dropdown
-        class="pagination__select"
+        class="mr-8 w-60"
         :items="paginationOptions"
         @on-select="onItemsPerPageSelect"
       />
@@ -51,16 +58,18 @@
 </template>
 
 <script>
-import VSearch from '@/components/VSearch.vue'
+import VInput from '@/components/VInput.vue'
 import VDropdown from '@/components/VDropdown.vue'
 import { deepClone } from '@/helpers'
 import { VALUE_ALL } from '@/consts'
+import IconArrowDown from '@/icons/icon-arrow-down.vue'
 
 export default {
   name: 'VTable',
   components: {
-    VSearch,
+    VInput,
     VDropdown,
+    IconArrowDown,
   },
   props: {
     headers: {
@@ -109,12 +118,6 @@ export default {
         }
         return (left - right) * this.sortingOrder
       })
-    },
-    arrow() {
-      if (this.sortingOrder === 1) {
-        return '↑'
-      }
-      return '↓'
     },
     paginationText() {
       return `${this.currentPage} of ${this.totalPages}`
@@ -178,77 +181,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.container {
-  width: 100%;
-  padding-bottom: 80px;
-}
-.table {
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  &__head {
-    width: 100%;
-    display: grid;
-    cursor: pointer;
-    height: 48px;
-    font-weight: bold;
-    font-size: 18px;
-    border-bottom: 1px solid #dddce3;
-    height: 48px;
-    .head {
-      &__cell {
-        display: flex;
-        align-items: center;
-      }
-    }
-  }
-  &__body {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-
-    .body {
-      &__row {
-        display: grid;
-        height: 40px;
-        border-bottom: 1px solid #dddce3;
-        &:hover {
-          background-color: #dddce3;
-        }
-        .row {
-          &__cell {
-            display: flex;
-            align-items: center;
-            text-align: left;
-            font-size: 16px;
-          }
-        }
-      }
-    }
-  }
-}
-.pagination {
-  width: 100%;
-  display: flex;
-  flex-direction: row-reverse;
-  margin-top: 12px;
-  &__select {
-    width: 260px;
-    margin-right: 18px;
-  }
-  &__pager {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 260px;
-    margin-right: 18px;
-    .pager {
-      &__arrow {
-        cursor: pointer;
-      }
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

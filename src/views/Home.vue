@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="justify-center items-center w-screen h-screen">
     <v-table :headers="headers" :items="desserts" />
   </div>
 </template>
@@ -34,11 +34,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.home {
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-}
-</style>
+<style lang="scss" scoped></style>
