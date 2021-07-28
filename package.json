@@ -9,6 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/Zevs211/guileless-ui"
   },
+  "sideEffects": false,
   "scripts": {
     "serve": "vue-cli-service serve --port 3000",
     "predeploy": "vue-cli-service build --mode demo",
