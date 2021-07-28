@@ -1,6 +1,11 @@
 <template>
   <div>
-    <input type="text" v-model="search" />
+    <input
+      class="mb-4 w-full h-8 px-0 outline-none border-b border-transparent transition-colors focus:border-black"
+      type="text"
+      placeholder="Search ..."
+      v-model="search"
+    />
   </div>
 </template>
 
