@@ -1,9 +1,14 @@
 {
   "name": "guileless-ui",
-  "homepage": "https://lih1989.github.io/vue-input-calculator/", 
+  "homepage": "https://zevs211.github.io/ui-kit/", 
   "main": "./lib/guileless-ui.common.js",
   "version": "0.1.0",
   "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zevs211/ui-kit"
+  },
   "scripts": {
     "serve": "vue-cli-service serve --port 3000",
     "predeploy": "vue-cli-service build --mode demo",
@@ -11,6 +16,10 @@
     "build": "vue-cli-service build --target lib --name guileless-ui src/lib.js",
     "lint": "vue-cli-service lint"
   },
+  "files": [
+    "lib",
+    "src"
+  ],
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^2.6.11"
