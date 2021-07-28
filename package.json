@@ -2,7 +2,7 @@
   "name": "guileless-ui",
   "homepage": "https://zevs211.github.io/ui-kit/", 
   "main": "./lib/guileless-ui.common.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "license": "MIT",
   "repository": {
