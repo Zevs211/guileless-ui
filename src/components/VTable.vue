@@ -1,13 +1,17 @@
 <template>
-  <div class="w-full pb-40">
-    <v-input @inputSearch="onSearch" />
+  <div class="w-full shadow-md pb-4">
+    <div class="px-4 flex items-center w-full">
+      <v-input class="w-full" @inputSearch="onSearch" />
+      <icon-search class="ml-4" />
+    </div>
     <div class="relative w-full h-full">
       <div
         class="w-full grid cursor-pointer select-none border-b-2"
         :style="columnsNumber"
       >
         <span
-          class="flex items-center py-2 font-bold"
+          class="flex items-center justify-between py-2 font-bold"
+          :class="[{ 'pl-4': index === 0 }, { 'pl-2': index !== 0 }]"
           @click="onColumnClick(head)"
           v-for="(head, index) in headers"
           :key="index"
@@ -29,6 +33,7 @@
         >
           <span
             class="flex items-center text-left text-base"
+            :class="[{ 'pl-4': cellIndex === 0 }, { 'pl-2': cellIndex !== 0 }]"
             v-for="(column, cellIndex) in headers"
             :key="cellIndex"
           >
@@ -46,13 +51,9 @@
       </div>
       <v-dropdown
         class="mr-8 w-60"
-        :items="paginationOptions"
+        :items="internalPaginationOptions"
         @on-select="onItemsPerPageSelect"
       />
-      <!-- <v-dropdown :items="['alaska', 'russia', 'usa']" /> -->
-      <!-- <v-dropdown :items="[false, true]" />
-      <v-dropdown :items="[1, 2, 3, 4]" />
-      <v-dropdown :items="[{ ff: 11 }, { ff: 22 }]" item-value="ff" /> -->
     </div>
   </div>
 </template>
@@ -63,6 +64,7 @@ import VDropdown from '@/components/VDropdown.vue'
 import { deepClone } from '@/helpers'
 import { VALUE_ALL } from '@/consts'
 import IconArrowDown from '@/icons/icon-arrow-down.vue'
+import IconSearch from '@/icons/icon-search.vue'
 
 export default {
   name: 'VTable',
@@ -70,6 +72,7 @@ export default {
     VInput,
     VDropdown,
     IconArrowDown,
+    IconSearch,
   },
   props: {
     headers: {
@@ -80,6 +83,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    paginationOptions: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -87,12 +94,7 @@ export default {
       rows: [],
       sortingKey: '',
       sortingOrder: 1,
-      paginationOptions: [
-        { value: 5 },
-        { value: 10 },
-        { value: 15 },
-        { value: VALUE_ALL },
-      ],
+      internalPaginationOptions: [],
       rowsPerPage: null,
       currentPage: 1,
       totalPages: 1,
@@ -124,6 +126,7 @@ export default {
     },
   },
   created() {
+    this.internalPaginationOptions = [...this.paginationOptions, VALUE_ALL]
     const copyItems = deepClone(this.items)
     this.rows = copyItems.slice(0, 5)
     this.totalPages = Math.ceil(this.items.length / this.rows.length)
@@ -149,8 +152,8 @@ export default {
       this.rows = deepClone(filteredRows)
     },
     onItemsPerPageSelect(value) {
-      if (value.value === VALUE_ALL) {
-        this.rowsPerPage = { value: this.items.length }
+      if (value === VALUE_ALL) {
+        this.rowsPerPage = this.items.length
         this.currentPage = 1
         this.totalPages = 1
         this.paginate()
@@ -158,11 +161,11 @@ export default {
       }
       this.rowsPerPage = value
       this.currentPage = 1
-      this.totalPages = Math.ceil(this.items.length / this.rowsPerPage.value)
+      this.totalPages = Math.ceil(this.items.length / this.rowsPerPage)
       this.paginate()
     },
     paginate() {
-      const rowsPerPage = this.rowsPerPage.value
+      const rowsPerPage = this.rowsPerPage
       const pagedRows = this.items.slice(
         (this.currentPage - 1) * rowsPerPage,
         this.currentPage * rowsPerPage,
