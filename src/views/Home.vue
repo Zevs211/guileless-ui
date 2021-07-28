@@ -1,6 +1,12 @@
 <template>
   <div class="justify-center items-center w-screen h-screen">
-    <v-table :headers="headers" :items="desserts" />
+    <div class="pb-40 px-4 pt-8">
+      <v-table
+        :headers="headers"
+        :items="desserts"
+        :paginationOptions="paginationOptions"
+      />
+    </div>
   </div>
 </template>
 
@@ -29,6 +35,7 @@ export default {
         { text: 'Iron (%)', value: 'iron' },
       ],
       desserts: MockedData,
+      paginationOptions: [5, 10, 15, 20, 25],
     }
   },
 }
