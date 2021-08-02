@@ -1,24 +1,28 @@
-# uikit
+# guileless-ui
 
-## Project setup
-```
-npm install
-```
+Yet another vue ui components library
 
-### Compiles and hot-reloads for development
+## Install the package
+
 ```
-npm run serve
+npm i guileless-ui
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Intall tailwindcss
 
-### Lints and fixes files
-```
-npm run lint
-```
+You should install tailwindcss because all the components depend on it.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Refer to [Install TailwindCSS](https://tailwindcss.com/docs/installation)
+
+## Components
+
+- [x] Table
+- [x] Input
+- [x] Dropdown
+- [ ] Button
+- [ ] Checkbox
+- [ ] Radio
+- [ ] Group
+- [ ] List
+- [ ] Form
+- TBD
